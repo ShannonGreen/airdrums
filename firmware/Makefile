@@ -8,15 +8,15 @@ SOURCES_TX=main.c airdrums_stick.c i2c.c nrf.c spi.c
 all: rx_build tx_build
 
 rx: rx_build
-	@mkdir -p build
 	$(DBG) "prog $(OUTDIR)/rx" run
 
 tx: tx_build
-	@mkdir -p build
 	$(DBG) "prog $(OUTDIR)/tx" run
 
 rx_build: $(SOURCES_RX)
+	@mkdir -p build
 	$(CC) $(CFLAGS) -DRECEIVER $(SOURCES_RX) -o $(OUTDIR)/rx
 
 tx_build: $(SOURCES_TX)
+	@mkdir -p build
 	$(CC) $(CFLAGS) -DTRANSMITTER $(SOURCES_TX) -o $(OUTDIR)/tx

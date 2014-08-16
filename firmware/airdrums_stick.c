@@ -135,10 +135,16 @@ void process_data() {
 
     // HIT DETECTION BEYOND THIS POINT
     //pos += (char)ga_data.reg.z_gyro_h;
-    if(pos >= 0){
-        drum = 0;
-    } else {
+    if (pos <= -3000) {
+        drum = 0; // out of range
+    } else if (pos <= -1000) {
         drum = 1;
+    } else if (pos <= 1000) {
+        drum = 2;
+    } else if (pos <= 3000) {
+        drum = 3;
+    } else {
+        drum = 0; // out of range
     }
 
     if (ga_data.value.z_accel > MAGNITUDE_THRESHOLD) {
@@ -159,7 +165,7 @@ void process_data() {
         highCount = 0;
         isDown = FALSE;
         hitDetected = TRUE;
-        int velocity = ((ga_data.value.z_accel - MAGNITUDE_THRESHOLD) << 5) / (5 * MAGNITUDE_THRESHOLD);
+        int velocity = ((ga_data.value.z_accel - MAGNITUDE_THRESHOLD)) / (100);
         if (velocity > 31) velocity = 31;
 
         // transmit!
