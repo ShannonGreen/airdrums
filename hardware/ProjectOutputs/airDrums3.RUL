@@ -1,0 +1,5 @@
+DRC Rules Export File for PCB: D:\Laurens Documents\possum\Uni\3rd year\sem 2\ELEC3117\drumsticks altium\airDrums3.PcbDoc
+RuleKind=ShortCircuit|RuleName=ShortCircuit|Scope=Board|Allowed=0
+RuleKind=SolderMaskExpansion|RuleName=SolderMaskExpansion|Scope=Board|Minimum=4.00
+RuleKind=Width|RuleName=Width|Scope=Board|Minimum=11.81
+RuleKind=Clearance|RuleName=Clearance|Scope=Board|Minimum=11.81

@@ -1,0 +1,18 @@
+---------------------------------------------------------------------------
+NCDrill File Report For: airDrums3.PcbDoc   7/10/2013  12:36:31 PM
+---------------------------------------------------------------------------
+
+Layer Pair : Top Layer to Bottom Layer
+ASCII RoundHoles File : airDrums3-RoundHoles.TXT
+ASCII SlotHoles File : airDrums3-SlotHoles.TXT
+
+Tool         Hole Size           Hole Type     Hole Count Plated       Tool Travel
+---------------------------------------------------------------------------
+T1        0.762mm (30mil)          Slot           2                7298.96 mm (287.36 Inch)
+T2        0.8mm (31.496mil)        Round          2                5.43 mm (0.21 Inch)
+T3        0.9mm (35.433mil)        Round          38               188.45 mm (7.42 Inch)
+T4        1.2mm (47.244mil)        Round          6                15.75 mm (0.62 Inch)
+---------------------------------------------------------------------------
+Totals                                            48               7508.59 mm (295.61 Inch)
+
+Total Processing Time (hh:mm:ss) : 00:00:00
