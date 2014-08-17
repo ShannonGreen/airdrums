@@ -33,33 +33,30 @@
 /**
  * Receive Data (RXD) at P1.1
  */
-#define RXD		BIT1
+#define RXD     BIT1
 
 /**
  * Transmit Data (TXD) at P1.2
  */
-#define TXD		BIT2
+#define TXD     BIT2
 
-void uart_init(void)
-{
-	P1SEL  |= RXD + TXD;
-  	P1SEL2 |= RXD + TXD;
-  	UCA0CTL1 |= UCSSEL_2;                     // SMCLK
-  	UCA0BR0 = 104;                         // 1MHz 9600
-  	UCA0BR1 = 0;                              // 1MHz 9600
-  	UCA0MCTL = UCBRS0;                        // Modulation UCBRSx = 1
-  	UCA0CTL0 = 0;
-  	UCA0CTL1 &= ~UCSWRST;                     // Initialize USCI state machine
+void uart_init(void) {
+    P1SEL  |= RXD + TXD;
+    P1SEL2 |= RXD + TXD;
+    UCA0CTL1 |= UCSSEL_2;                     // SMCLK
+    UCA0BR0 = 104;                         // 1MHz 9600
+    UCA0BR1 = 0;                              // 1MHz 9600
+    UCA0MCTL = UCBRS0;                        // Modulation UCBRSx = 1
+    UCA0CTL0 = 0;
+    UCA0CTL1 &= ~UCSWRST;                     // Initialize USCI state machine
 }
 
-void uart_putc(unsigned char c)
-{
-	while (!(IFG2&UCA0TXIFG));              // USCI_A0 TX buffer ready?
-  	UCA0TXBUF = c;                    		// TX
+void uart_putc(unsigned char c) {
+    while (!(IFG2&UCA0TXIFG));              // USCI_A0 TX buffer ready?
+    UCA0TXBUF = c;                          // TX
 }
 
-void uart_puts(const char *str)
-{
-     while(*str) uart_putc(*str++);
+void uart_puts(const char *str) {
+    while(*str) uart_putc(*str++);
 }
 
