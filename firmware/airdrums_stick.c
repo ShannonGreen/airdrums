@@ -19,9 +19,34 @@ int drift;
 int driftCount = 0;
 int hitDetected = 0;
 int stillCounter = 0;
+byte debugCounter = 0;
 
 void process_data();
 void findDrift();
+
+// Circular buffer size.
+// Try to keep this a power of 2 for fast modulos.
+#define BUFFER_SIZE 16
+
+void circ_init();
+void circ_add(int item);
+int circ_getelem(int index);
+
+int circ_gyro[BUFFER_SIZE] = {0};
+int circ_index;
+
+void circ_init() {
+    circ_index = 0;
+}
+
+void circ_add(int item) {
+    circ_gyro[circ_index] = item;
+    if (++circ_index == BUFFER_SIZE) circ_index = 0;
+}
+
+int circ_getelem(int index) {
+    return circ_gyro[(index + circ_index) % BUFFER_SIZE];
+}
 
 void airdrums_stick(void){
 
@@ -63,6 +88,9 @@ void airdrums_stick(void){
 
     //wake sensor up by clearing sleep bit
     MPU6050_write_byte (MPU6050_PWR_MGMT_1, 0);
+
+    // initialise circular buffer
+    circ_init();
 
     // Do some quick and dirty drift correction
     findDrift();
@@ -161,15 +189,21 @@ void process_data() {
         isDown = FALSE;
     }
 
+    circ_add(pos);
+
     if ((highCount > SAMPLE_COUNT) && isDown && (!hitDetected)) {
         highCount = 0;
         isDown = FALSE;
         hitDetected = TRUE;
-        int velocity = ((ga_data.value.z_accel - MAGNITUDE_THRESHOLD)) / (100);
+        int velocity = ((ga_data.value.z_accel - MAGNITUDE_THRESHOLD)) * 31 / (MAGNITUDE_THRESHOLD);
         if (velocity > 31) velocity = 31;
+        if (velocity < 0) velocity = 0;
 
         // transmit!
+#ifndef TXDEBUG
         nrfTXByte((velocity << 3) | drum);
+#endif
+
 
         // A drum hit was detected. This is great, but
         // it has the potential to screw with our gyro -
@@ -178,10 +212,16 @@ void process_data() {
         // We'll restore the value from a few samples back and
         // see if that helps.
 
-        // do that stuff
+        //pos = circ_getelem(BUFFER_SIZE - 1);
 
     }
 
+#ifdef TXDEBUG
+    if (debugCounter == 100) {
+        nrfTXByte(pos / 20);
+        debugCounter = 0;
+    }
+#endif
 }
 
 void findDrift(void){

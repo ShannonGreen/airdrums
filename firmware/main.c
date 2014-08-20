@@ -8,10 +8,14 @@
 
 int main(void)
 {
-#ifdef RECEIVER
-	airdrums_receiver();
+#ifdef RXDEBUG
+    airdrums_debug();
 #else
+    #ifdef RECEIVER
+	airdrums_receiver();
+    #else
 	airdrums_stick();
+    #endif
 #endif
 	return 0;
 }

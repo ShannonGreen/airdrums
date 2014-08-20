@@ -2,7 +2,7 @@ CC=msp430-gcc
 CFLAGS=-mmcu=msp430g2553
 DBG=mspdebug rf2500
 OUTDIR=build
-SOURCES_RX=main.c airdrums_receiver.c nrf.c spi.c uart.c
+SOURCES_RX=main.c airdrums_receiver.c nrf.c spi.c uart.c airdrums_debug.c
 SOURCES_TX=main.c airdrums_stick.c i2c.c nrf.c spi.c
 
 all: rx_build tx_build
@@ -20,3 +20,13 @@ rx_build: $(SOURCES_RX)
 tx_build: $(SOURCES_TX)
 	@mkdir -p build
 	$(CC) $(CFLAGS) -DTRANSMITTER $(SOURCES_TX) -o $(OUTDIR)/tx
+
+tx_debug: $(SOURCES_TX)
+	@mkdir -p build
+	$(CC) $(CFLAGS) -DTXDEBUG $(SOURCES_TX) -o $(OUTDIR)/txdebug
+	$(DBG) "prog $(OUTDIR)/txdebug" run
+
+rx_debug: $(SOURCES_RX)
+	@mkdir -p build
+	$(CC) $(CFLAGS) -DRXDEBUG $(SOURCES_RX) -o $(OUTDIR)/rxdebug
+	$(DBG) "prog $(OUTDIR)/rxdebug" run

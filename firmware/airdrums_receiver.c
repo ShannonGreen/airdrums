@@ -39,7 +39,8 @@ void airdrums_receiver() {
             while(!nrfDataReady());
             a = nrfGetRXByte();
             //velocity = 100;
-            velocity = (a & 0xf8) >> 3;
+            velocity = ((a & 0xf8)) >> 3;
+            if (velocity == 0) velocity = 100;
             drum = (a & 0x7);
 
             switch (drum) {
