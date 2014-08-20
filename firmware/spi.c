@@ -1,13 +1,13 @@
-q/*
+/*
  * spi.c
  *
  *  Created on: 07/10/2013
  *      Author: Shannon
  */
- #include <msp430.h>
 
+#include <msp430.h>
 
-#ifndef RX
+#ifndef RECEIVER
 #define SCLKPIN    BIT4
 #define MISOPIN    BIT1
 #define MOSIPIN    BIT2
