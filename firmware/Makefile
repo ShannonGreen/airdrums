@@ -2,8 +2,9 @@ CC=msp430-gcc
 CFLAGS=-mmcu=msp430g2553
 DBG=mspdebug rf2500
 OUTDIR=build
-SOURCES_RX=main.c airdrums_receiver.c nrf.c spi.c uart.c airdrums_debug.c
-SOURCES_TX=main.c airdrums_stick.c i2c.c nrf.c spi.c
+SOURCES_COMMON=main.c nrf.c spi.c uart.c i2c.c
+SOURCES_RX=$(SOURCES_COMMON) airdrums_receiver.c
+SOURCES_TX=$(SOURCES_COMMON) airdrums_stick.c
 
 all: rx_build tx_build
 
@@ -15,20 +16,20 @@ tx: tx_build
 
 rx_build: clean $(SOURCES_RX)
 	@mkdir -p build
-	$(CC) $(CFLAGS) -DRECEIVER $(SOURCES_RX) -o $(OUTDIR)/rx
+	$(CC) $(CFLAGS) -DRX $(SOURCES_RX) -o $(OUTDIR)/rx
 
 tx_build: clean $(SOURCES_TX)
 	@mkdir -p build
-	$(CC) $(CFLAGS) -DTRANSMITTER $(SOURCES_TX) -o $(OUTDIR)/tx
+	$(CC) $(CFLAGS) -DTX $(SOURCES_TX) -o $(OUTDIR)/tx
 
-tx_debug: clean $(SOURCES_TX)
+tx_debug: clean $(SOURCES_COMMON) airdrums_debug_tx.c
 	@mkdir -p build
-	$(CC) $(CFLAGS) -DTXDEBUG $(SOURCES_TX) -o $(OUTDIR)/txdebug
+	$(CC) $(CFLAGS) -DTXDEBUG $(SOURCES_COMMON) airdurms_debug_tx.c -o $(OUTDIR)/txdebug
 	$(DBG) "prog $(OUTDIR)/txdebug" run
 
-rx_debug: clean $(SOURCES_RX)
+rx_debug: clean $(SOURCES_COMMON) airdrums_debug_rx.c
 	@mkdir -p build
-	$(CC) $(CFLAGS) -DRXDEBUG $(SOURCES_RX) -o $(OUTDIR)/rxdebug
+	$(CC) $(CFLAGS) -DRXDEBUG $(SOURCES_COMMON) airdrums_debug_rx.c -o $(OUTDIR)/rxdebug
 	$(DBG) "prog $(OUTDIR)/rxdebug" run
 
 clean:

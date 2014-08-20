@@ -1,4 +1,4 @@
-/*
+q/*
  * spi.c
  *
  *  Created on: 07/10/2013
@@ -7,7 +7,7 @@
  #include <msp430.h>
 
 
-#ifndef RECEIVER
+#ifndef RX
 #define SCLKPIN    BIT4
 #define MISOPIN    BIT1
 #define MOSIPIN    BIT2
