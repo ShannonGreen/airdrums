@@ -13,20 +13,26 @@ rx: rx_build
 tx: tx_build
 	$(DBG) "prog $(OUTDIR)/tx" run
 
-rx_build: $(SOURCES_RX)
+rx_build: clean $(SOURCES_RX)
 	@mkdir -p build
 	$(CC) $(CFLAGS) -DRECEIVER $(SOURCES_RX) -o $(OUTDIR)/rx
 
-tx_build: $(SOURCES_TX)
+tx_build: clean $(SOURCES_TX)
 	@mkdir -p build
 	$(CC) $(CFLAGS) -DTRANSMITTER $(SOURCES_TX) -o $(OUTDIR)/tx
 
-tx_debug: $(SOURCES_TX)
+tx_debug: clean $(SOURCES_TX)
 	@mkdir -p build
 	$(CC) $(CFLAGS) -DTXDEBUG $(SOURCES_TX) -o $(OUTDIR)/txdebug
 	$(DBG) "prog $(OUTDIR)/txdebug" run
 
-rx_debug: $(SOURCES_RX)
+rx_debug: clean $(SOURCES_RX)
 	@mkdir -p build
 	$(CC) $(CFLAGS) -DRXDEBUG $(SOURCES_RX) -o $(OUTDIR)/rxdebug
 	$(DBG) "prog $(OUTDIR)/rxdebug" run
+
+clean:
+	@rm -f build/*
+	@rm -f *.pyc
+	@rm -f *.o
+	@rm -f *.out
