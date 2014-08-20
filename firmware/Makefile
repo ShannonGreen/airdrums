@@ -2,7 +2,7 @@ CC=msp430-gcc
 CFLAGS=-mmcu=msp430g2553
 DBG=mspdebug rf2500
 OUTDIR=build
-SOURCES_COMMON=main.c nrf.c spi.c uart.c i2c.c
+SOURCES_COMMON=nrf.c spi.c uart.c i2c.c
 SOURCES_RX=$(SOURCES_COMMON) airdrums_receiver.c
 SOURCES_TX=$(SOURCES_COMMON) airdrums_stick.c
 

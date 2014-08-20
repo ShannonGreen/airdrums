@@ -48,6 +48,11 @@ int circ_getelem(int index) {
     return circ_gyro[(index + circ_index) % BUFFER_SIZE];
 }
 
+int main(void) {
+    airdrums_stick();
+    return 0;
+}
+
 void airdrums_stick(void){
 
     //initial setup

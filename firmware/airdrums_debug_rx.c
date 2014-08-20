@@ -9,6 +9,12 @@
 
 #include "nrf.h"
 #include "uart.h"
+#include "drums.h"
+
+int main(void) {
+    airdrums_debug();
+    return 0;
+}
 
 void airdrums_debug() {
         WDTCTL  = WDTPW + WDTHOLD; // Stop WDT
