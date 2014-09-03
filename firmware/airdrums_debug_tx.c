@@ -163,7 +163,7 @@ void process_data() {
         driftCount = 0;
     } else {
         pos += (int)(ga_data.value.z_gyro)/1000;
-        drift++;
+        driftCount++;
     }
 
     // HIT DETECTION BEYOND THIS POINT
