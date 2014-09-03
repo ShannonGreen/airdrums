@@ -32,6 +32,10 @@ rx_debug: clean $(SOURCES_COMMON) airdrums_debug_rx.c
 	$(CC) $(CFLAGS) -DRXDEBUG $(SOURCES_COMMON) airdrums_debug_rx.c -o $(OUTDIR)/rxdebug
 	$(DBG) "prog $(OUTDIR)/rxdebug"
 
+single_debug: clean $(SOURCES_COMMON) airdrums_debug_single.c
+	@mkdir -p build
+	$(CC) $(CFLAGS) $(SOURCES_COMMON) airdrums_debug_single.c -o $(OUTDIR)/singledebug
+
 clean:
 	@rm -f build/*
 	@rm -f *.pyc
