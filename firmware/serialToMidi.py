@@ -33,13 +33,13 @@ def main():
 
     while True:
         try:
-            # expecting 3 numbers, space separated:
-            # first number specifies note on, 153, or note off, 137
-            # second number is the note, middle C is 74 I believe
-            # 3rd number is the velocity, 127 is the max apparently
-            #TODO: I think our velocity goes higher than this at the moment, so for now I'm just going to halve it to make sure it's in the right range, should possibly fix that in the code
+            # expecting 3 bytes, then a new line:
+            # first byte specifies note on, 153, or note off, 137
+            # second byte is the note, middle C is 74 I believe
+            # 3rd byte is the velocity, 127 is the max apparently
+            #TODO: our velocity appears to be 31 or 100, not sure the reasoning behind this would be nice to be able to scale it better, going to add 27 on to to make it reach the max
             line = ser.readline()
-            data = [int(val) for val in line.split()]
+            data = [int(val) for val in list(line[:-1])]
             
             if len(data) == 3:
                 playNote(player, data)
@@ -59,9 +59,9 @@ def main():
 
 def playNote(player, data):
     if data[0] == NOTE_ON:
-        player.note_on(data[1], data[2]/2)
+        player.note_on(data[1], data[2]+27)
     elif data[0] == NOTE_OFF:
-        player.note_off(data[1], data[2]/2)
+        player.note_off(data[1], data[2]+27)
     else:
         print "incorrect id byte recieved (" + str(data[0]) + "), can't play note"
         print "should be " + str(NOTE_ON) + ", note on, or " + str(NOTE_OFF) + ", note off"
